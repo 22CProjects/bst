@@ -3,6 +3,7 @@
 
 #include "BinaryNode.h"
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 using namespace std;
 
@@ -142,6 +143,8 @@ class BinarySearchTree
 
 			void save_to_file_helper(BinaryNode<DataType, KeyType>* subTreePtr, ofstream& outputFile);
 			int max(int l, int r);
+			
+			void print_helper(BinaryNode<DataType, KeyType>* root, int level);
 
 	public:
 		//------------------------------------------------------------
@@ -191,7 +194,16 @@ class BinarySearchTree
 			 - Parameter: a reference ofstream object
 			 - Output: none
 		****************************************************************************/
+		
 		void save_to_file(ofstream& outputFile)			{ save_to_file_helper(rootPtr, outputFile); }
+
+		/****************************************************************************
+		Definition of save_to_file
+		-prints an indented tree to the consol
+		- Parameter: none
+		- Output: none
+		****************************************************************************/
+		void print_tree();
 };
 #endif // !_BinarySearchTree
 
@@ -503,8 +515,8 @@ void BinarySearchTree<DataType, KeyType>::destroyTree(BinaryNode<DataType, KeyTy
 		{
 			inorder(visit, treePtr->getLeftChildPtr());
 
-			cout << "Inorder: " << treePtr->get_key() << endl;
-			cout << "content: " << *treePtr->getItemPtr();
+//			cout << "Inorder: " << treePtr->get_key() << endl;
+//			cout << "content: " << *treePtr->getItemPtr()<<endl;
 
 			KeyType theItemKey = treePtr->get_key();
 			visit(theItemKey);
@@ -525,7 +537,7 @@ void BinarySearchTree<DataType, KeyType>::destroyTree(BinaryNode<DataType, KeyTy
 			KeyType theItemKey = treePtr->get_key();
 			visit(theItemKey);
 
-			cout << "Pre-order: " << treePtr->get_key() << endl;
+		//	cout << "Pre-order: " << treePtr->get_key() << endl;
 
 			preorder(visit, treePtr->getLeftChildPtr());
 
@@ -548,20 +560,44 @@ void BinarySearchTree<DataType, KeyType>::destroyTree(BinaryNode<DataType, KeyTy
 			KeyType theItemKey = treePtr->get_key();
 			visit(theItemKey);
 
-			cout << "Post-order: " << treePtr->get_key() << endl;
+//			cout << "Post-order: " << treePtr->get_key() << endl;
 		} // end if
 	} // end postorder 
 
-
-template<class DataType, class KeyType>
-void BinarySearchTree<DataType, KeyType>::save_to_file_helper(BinaryNode<DataType, KeyType>* subTreePtr, ofstream& outputFile)
-{
-	if (subTreePtr == nullptr)
-		return;
-	else
-	{
-		outputFile << *subTreePtr->getItemPtr();
-		save_to_file_helper(subTreePtr->getLeftChildPtr(), outputFile);
-		save_to_file_helper(subTreePtr->getRightChildPtr(), outputFile);
+	
+	template<class DataType, class KeyType>
+	void BinarySearchTree<DataType, KeyType>::print_tree() {
+			print_helper(rootPtr, 0);
 	}
-}
+
+	template<class DataType, class KeyType>
+	void  BinarySearchTree<DataType, KeyType>::print_helper(BinaryNode<DataType, KeyType>* root, int level){
+		if (root == nullptr)
+				return;
+			print_helper(root->getRightChildPtr(), level + 1);
+			if (level != 0){
+				for (int i = 0; i < level - 1; i++){
+					cout<<"|\t";
+				}
+				cout<<"|-------" << root->get_key()<<endl;
+			}
+			else
+				cout<<root->get_key()<<endl;
+			print_helper(root->getLeftChildPtr(), level + 1);
+	}
+
+
+	template<class DataType, class KeyType>
+	void BinarySearchTree<DataType, KeyType>::save_to_file_helper(BinaryNode<DataType, KeyType>* subTreePtr, ofstream& outputFile)
+	{
+		if (subTreePtr == nullptr)
+			return;
+		else
+		{
+			outputFile << *subTreePtr->getItemPtr()<<endl;
+			save_to_file_helper(subTreePtr->getLeftChildPtr(), outputFile);
+			save_to_file_helper(subTreePtr->getRightChildPtr(), outputFile);
+		}
+	}
+
+

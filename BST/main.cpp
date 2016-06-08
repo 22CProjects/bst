@@ -13,6 +13,10 @@ void visit(int& someData)
 		someData=0;
 	}
 
+void print(int& someData)
+{
+	cout << someData << endl;
+}
 
 //Prototypes
 void readFile(StudentData* stu, BinarySearchTree<StudentData, int>& stu_tree);
@@ -23,13 +27,14 @@ int main()
 	StudentData* stu = new StudentData[10];
 	BinarySearchTree<StudentData, int> stu_tree;
 	bool tempBool = false;
+	string format = "[ID,name,GPA,years studied, current units]";// to display format of data to user
 
 	// Read student info from a file
 	readFile(stu, stu_tree);
 
 	// Using inorder to traverse through the file
 	cout << "Traversing throught the file using inorder\n";
-	stu_tree.inorderTraverse(visit);
+	stu_tree.inorderTraverse(print);
 
 	// Add a new student
 	cout << "\n\n\nADD A NEW STUDENT\n";
@@ -38,13 +43,11 @@ int main()
 
 	stu_tree.add(stu[4].getID(), (stu + 4));
 
-	stu_tree.inorderTraverse(visit);
-
 	// Delete a student
 	cout << "\n\n\nDELETE A STUDENT\n";
 	stu_tree.remove(11112222);
 
-	stu_tree.inorderTraverse(visit);
+	stu_tree.print_tree(); 
 
 	// Find a student using the key
 	cout << "\n\n\nFIND AND DISPLAY STUDENT by KEY\n";
@@ -54,7 +57,7 @@ int main()
 	{
 		StudentData* tempStu = nullptr;
 		tempStu = stu_tree.getEntry_address(20356325);
-		cout << *tempStu;
+		cout << *tempStu<<endl;
 	}
 	else
 		cout << "Not exist\n";
@@ -71,6 +74,7 @@ int main()
 	stu_tree.save_to_file(outFile);
 
 	outFile.close();
+
 	delete []stu;
 	system("pause");
 	return 0;

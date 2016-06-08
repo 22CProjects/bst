@@ -45,8 +45,10 @@ class StudentData
 
 ostream& operator<<(ostream& output, const StudentData& student)
 {
-	output << "ID: " << student.ID << " | Name: " << student.name << "\n"
-		<< "\tMajor: " << student.major << " |  GPA: " << student.GPA << " |  Total Credits: " << student.total_credits << "\n"
-		<< "\tYears at college: " << student.year_studied << " |  Current Units: " << student.current_units << "\n\n";
+	output << student.ID << "," << student.name << "," <<","<<student.major<<","<< student.total_credits << "," << student.year_studied << "," << student.current_units;
 	return output;
 }
+
+/*<< "ID: " << student.ID << " | Name: " << student.name << "\n"
+		<< "\tMajor: " << student.major << " |  GPA: " << student.GPA << " |  Total Credits: " << student.total_credits << "\n"
+		<< "\tYears at college: " << student.year_studied << " |  Current Units: " << student.current_units << "\n\n";*/

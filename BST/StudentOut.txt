@@ -1,16 +1,9 @@
-ID: 20356325 | Name: Taylor Swift
-	Major: Singing |  GPA: 3.5 |  Total Credits: 59
-	Years at college: 2.8 |  Current Units: 8
-
-ID: 10356894 | Name: Keira Knightly
-	Major: Acting |  GPA: 3.7 |  Total Credits: 92.5
-	Years at college: 2.5 |  Current Units: 10
-
-ID: 32541068 | Name: Daniel Raff
-	Major: Acting |  GPA: 3.8 |  Total Credits: 26
-	Years at college: 3 |  Current Units: 4
-
-ID: 23015687 | Name: Selena Gomez
-	Major: Singing |  GPA: 3 |  Total Credits: 64
-	Years at college: 3.5 |  Current Units: 7
-
+8000000,Taylor Swift,,Singing,59,2.8,8
+5000000,Yiel Klaff,,Math,22,4,14
+2000000,Eira Nily,,Buisness,90.5,3.5,11
+1000000,Sel mez,,Composition,63,2.1,7
+4000000,Bel Kez,,Accounting,69,2.8,5
+15000000,Daniel Raff,,Acting,26,3,4
+9000000,Keira Knightly,,Acting,92.5,2.5,10
+16000000,Selena Gomez,,Singing,64,3.5,7
+11112222,New student,,New Major,124,3,14
