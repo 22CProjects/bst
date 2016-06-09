@@ -2,19 +2,22 @@
 #ifndef _NODE
 #define _NODE
 
-template <class DataType>
+template <class DataType, class KeyType>
 class Node
 {
 protected:
-	DataType* data;	// To hold data
+	KeyType key;
+	DataType data;	// To hold data
 	Node *nextNode;	// To point to the next node in the list
 
 public:
 	// Default constructor
-	Node() : data(0),nextNode(0) {}		// Initialize nextNode pointer to nullptr
+	Node() : nextNode(0) {}		// Initialize nextNode pointer to nullptr
 
 	// Overloaded constructor: Initialize data, and nextNode to parameter d and n
-	Node(DataType* d, Node* n) : data(d), nextNode(n) {}
+	Node(DataType d, Node* n) : key(d), data(d), nextNode(n) {}
+	//key option
+	Node(KeyType k, DataType d, Node* n) : key(k), data(d), nextNode(n) {}
 
 	// Destructor
 	~Node(){}
@@ -23,8 +26,8 @@ public:
 	void     set_next(Node* ptr) { nextNode = ptr; }
 
 	// Accessors
-	DataType get_data() const { return *data; }
-	DataType* get_dataAddress() const { return data; }
+	KeyType  get_key() const { return key; }
+	DataType get_data() const { return data; }
 	Node*    get_next() const { return nextNode; }
 	
 };

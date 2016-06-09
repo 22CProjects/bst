@@ -29,13 +29,13 @@
     <ClInclude Include="StudentData.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Head.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="SinglyLinkedList.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Head.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,8 +4,8 @@
 
 #include "Node.h"
 
-template <class DataType>
-class Head : public Node<DataType>
+template <class DataType, class KeyType>
+class Head : public Node<DataType, KeyType>
 {
 private:
 	Node* rear;			// Point to the node at the end of the list
@@ -14,7 +14,7 @@ private:
 public:
 
 	// Default constructor: Initialize nodeCounter to 0 and point rear & front to nullptr
-	Head() :  Node<DataType>()
+	Head() : Node<DataType, KeyType>()
 	{
 		nodeCounter = 0;
 		rear = nullptr;
