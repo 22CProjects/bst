@@ -1,3 +1,6 @@
+/************************************************************
+	StudentData class 
+************************************************************/
 #ifndef _STUDENT_DATA
 #define _STUDENT_DATA
 
@@ -11,21 +14,26 @@ using std::ostream;
 class StudentData
 {
 	private:
-		int    ID;
-		string name;
-		string major;
+		int    ID;				
+		string name;			
+		string major;			
 		double GPA;
-		double total_credits;
-		double year_studied;
-		double current_units;
+		double total_credits;		// total credits taken 
+		double year_studied;		
+		double current_units;		// current units taken this quarter
 
 	public:
+		// DEFAULT CONSTRUCTOR: initialize all to 0
 		StudentData() :ID(0), name(""), major(""), GPA(0.0), total_credits(0.0), year_studied(0.0), current_units(0.0) {}
+
+		// CONTRUCTOR 2: assign all the parameters to the according variables of the class
 		StudentData(int id, string n, string m, double gpa, double credits, double yr, double curUnit) :
 			ID(id), name(n), major(m), GPA(gpa), total_credits(credits), year_studied(yr), current_units(curUnit) {}
 
+		// getID is used to get the ID as key
 		int getID() { return ID; }
 
+		// Overloading operator = : to be able to assign an object of StudentData equal to another
 		StudentData& operator=(const StudentData& student)
 		{
 			ID = student.ID;
@@ -38,6 +46,7 @@ class StudentData
 			return *this;
 		}
 
+		// Overloading operator << : to print out the private data
 		friend ostream & operator<<(ostream& output, const StudentData& student);
 };
 #endif // !_STUDENT_DATA
@@ -45,10 +54,9 @@ class StudentData
 
 ostream& operator<<(ostream& output, const StudentData& student)
 {
-	output << student.ID << "," << student.name << "," <<","<<student.major<<","<< student.total_credits << "," << student.year_studied << "," << student.current_units;
+	output	<< student.ID << "," << student.name << "," <<","<<student.major << "," 
+			<< student.total_credits << "," << student.year_studied << "," << student.current_units;
 	return output;
 }
 
-/*<< "ID: " << student.ID << " | Name: " << student.name << "\n"
-		<< "\tMajor: " << student.major << " |  GPA: " << student.GPA << " |  Total Credits: " << student.total_credits << "\n"
-		<< "\tYears at college: " << student.year_studied << " |  Current Units: " << student.current_units << "\n\n";*/
+ 

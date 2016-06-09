@@ -141,10 +141,40 @@ class BinarySearchTree
 			*************************************************************************************/
 			void postorder(void visit(int&), BinaryNode<DataType, KeyType>* treePtr) const;
 
-			void save_to_file_helper(BinaryNode<DataType, KeyType>* subTreePtr, ofstream& outputFile);
-			int max(int l, int r);
-			
-			void print_helper(BinaryNode<DataType, KeyType>* root, int level);
+
+
+		/*************************************************************************************
+			SAVE TO FILE - Protected
+			- Save information of the tree to a text file
+			- Parameters:
+				+ A BinaryNode pointer - to the root 
+				+ a reference of ofstream - to save the file to it
+			- Return: none
+		*************************************************************************************/
+		void save_to_file_helper(BinaryNode<DataType, KeyType>* subTreePtr, ofstream& outputFile);
+
+
+		/*************************************************************************************
+			MAX - Protected
+			- Compares and returns the bigger of the two number
+			- Parameters:
+				+ 2 integers
+			- Return: an int - the bigger number
+		*************************************************************************************/
+		int max(int l, int r);
+
+
+		/*************************************************************************************
+			PRINT INDENTED TREE - Protected
+			- Display the indented tree to the screen
+			- Parameters:
+				+ A BinaryNode pointer - to the root
+				+ An int - level of the node 
+			- Return: none
+		*************************************************************************************/
+		void print_helper(BinaryNode<DataType, KeyType>* root, int level);
+
+
 
 	public:
 		//------------------------------------------------------------
@@ -198,12 +228,12 @@ class BinarySearchTree
 		void save_to_file(ofstream& outputFile)			{ save_to_file_helper(rootPtr, outputFile); }
 
 		/****************************************************************************
-		Definition of save_to_file
-		-prints an indented tree to the consol
-		- Parameter: none
-		- Output: none
+			Definition of save_to_file
+			- prints an indented tree to the consol
+			- Parameter: none
+			- Output: none
 		****************************************************************************/
-		void print_tree();
+		void print_tree()								{	print_helper(rootPtr, 0); }
 };
 #endif // !_BinarySearchTree
 
@@ -564,40 +594,37 @@ void BinarySearchTree<DataType, KeyType>::destroyTree(BinaryNode<DataType, KeyTy
 		} // end if
 	} // end postorder 
 
-	
-	template<class DataType, class KeyType>
-	void BinarySearchTree<DataType, KeyType>::print_tree() {
-			print_helper(rootPtr, 0);
-	}
 
-	template<class DataType, class KeyType>
-	void  BinarySearchTree<DataType, KeyType>::print_helper(BinaryNode<DataType, KeyType>* root, int level){
-		if (root == nullptr)
-				return;
-			print_helper(root->getRightChildPtr(), level + 1);
-			if (level != 0){
-				for (int i = 0; i < level - 1; i++){
-					cout<<"|\t";
-				}
-				cout<<"|-------" << root->get_key()<<endl;
-			}
-			else
-				cout<<root->get_key()<<endl;
-			print_helper(root->getLeftChildPtr(), level + 1);
-	}
-
-
-	template<class DataType, class KeyType>
-	void BinarySearchTree<DataType, KeyType>::save_to_file_helper(BinaryNode<DataType, KeyType>* subTreePtr, ofstream& outputFile)
-	{
-		if (subTreePtr == nullptr)
+// PRINT INDENTED TREE - protected (print_helper)
+template<class DataType, class KeyType>
+void  BinarySearchTree<DataType, KeyType>::print_helper(BinaryNode<DataType, KeyType>* root, int level){
+	if (root == nullptr)
 			return;
-		else
-		{
-			outputFile << *subTreePtr->getItemPtr()<<endl;
-			save_to_file_helper(subTreePtr->getLeftChildPtr(), outputFile);
-			save_to_file_helper(subTreePtr->getRightChildPtr(), outputFile);
+		print_helper(root->getRightChildPtr(), level + 1);
+		if (level != 0){
+			for (int i = 0; i < level - 1; i++){
+				cout<<"|\t";
+			}
+			cout<<"|-------" << root->get_key()<<endl;
 		}
+		else
+			cout<<root->get_key()<<endl;
+		print_helper(root->getLeftChildPtr(), level + 1);
+} // End print_helper
+
+
+// SAVE TO FILE
+template<class DataType, class KeyType>
+void BinarySearchTree<DataType, KeyType>::save_to_file_helper(BinaryNode<DataType, KeyType>* subTreePtr, ofstream& outputFile)
+{
+	if (subTreePtr == nullptr)
+		return;
+	else
+	{
+		outputFile << *subTreePtr->getItemPtr()<<endl;
+		save_to_file_helper(subTreePtr->getLeftChildPtr(), outputFile);
+		save_to_file_helper(subTreePtr->getRightChildPtr(), outputFile);
 	}
+}
 
 
