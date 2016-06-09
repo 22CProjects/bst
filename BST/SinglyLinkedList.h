@@ -6,17 +6,17 @@
 #include <iostream>
 using namespace std;
 
-template <class DataType, class KeyType>
+template <class DataType>
 class SinglyLinkedList
 {
 protected:
-	Head<DataType, KeyType> headNode;
+	Head<DataType> headNode;
 
 public:
 	/* DEFAULT CONSTRUCTOR */
 	SinglyLinkedList();
 	
-	/* Deconstructor
+	/* Destructor
 		-deallocates memory of the nodes in the list
 	*/
 	~SinglyLinkedList();
@@ -26,14 +26,14 @@ public:
 		- Parameter: a DataType variable to be added
 		- Return: none
 	*/
-	void addTop(KeyType newKey, DataType newData);
+	void addTop(DataType newData);
 
 	/* Definition of addEnd
 	- It adds newData to the end of the list
 	- Parameter: a DataType variable to be added
 	- Return: none
 	*/
-	void addEnd(KeyType newKey, DataType newData);
+	void addEnd(DataType newData);
 
 	/* Definition addAfter
 	- It adds newNode after an existing node in the list
@@ -42,7 +42,7 @@ public:
 	      + preData: the data to insert the newData after
 	- Return: none
 	*/
-	void addAfter(KeyType newKey, DataType newData, KeyType preKey);
+	void addAfter(DataType newData, DataType preData);
 
 	/* Definition addToPos
 	- It adds newNode to a specified position in the list
@@ -51,23 +51,21 @@ public:
 	      + pos: the position to insert the node in
 	- Return: none
 	*/
-	void addToPos(KeyType newKey, DataType newData, int pos);
+	void addToPos(DataType newData, int pos);
 
 	/* Definition of deleteNode
 		- It removes a Node from the list
 		- Parameter: a Node variable to be deleted
 		- Return: none
 	*/
-	void remove(KeyType deleteKey);
+	void remove(DataType data2delete);
 
 	/* Definition of find
 		- It traverses through the list to find the Node
 		- Parameter: a Node variable to be searched
 		- Return: an int (for position of that Node in the list)
 	*/
-	int find(KeyType findKey);
-
-	DataType* returnData(KeyType dataKey);
+	int find(DataType data2find);
 
 	/* Definition of emptyList
 		- It removes all the Nodes in the list
@@ -76,7 +74,7 @@ public:
 	*/
 	void emptyList();
 
-	/* Definition of countNodes
+	/*	Definition of countNodes
 		- It counts the total number of Nodes in the list by calling function getNodeCounter() from Head.h
 		- Parameter: none
 		- Return: an int (number of nodes)
@@ -84,69 +82,90 @@ public:
 	virtual int countNodes();
 
 	/*
-	Definition of overloaded operator<<
+		Definition of overloaded operator<<
 		- prints contents of the list
 		- Parameter: none
 		- Return: void
 	*/
-	template<class DataType, KeyType> friend ostream& operator<<(ostream&, const SinglyLinkedList<DataType, KeyType>&);
-	
+	template<class DataType> friend ostream& operator<<(ostream&, const SinglyLinkedList<DataType>&);
+	DataType* get_node_address(DataType data2find);
+
+	DataType get_node_data(DataType data2find);
 };
 
 
 
-template <class DataType, class KeyType>
-SinglyLinkedList<DataType, KeyType>::SinglyLinkedList()
+template <class DataType>
+SinglyLinkedList<DataType>::SinglyLinkedList()
 {
 }//end default contructor
 
-template <class DataType, class KeyType>
-SinglyLinkedList<DataType, KeyType>::~SinglyLinkedList()
+template <class DataType>
+SinglyLinkedList<DataType>::~SinglyLinkedList()
 {
 	emptyList();
 }//end deconstructor
 
-template <class DataType, class KeyType>
-void SinglyLinkedList<DataType, KeyType>::addTop(KeyType newKey, DataType newData)
+template <class DataType>
+void SinglyLinkedList<DataType>::addTop(DataType newData)
 {
-	Node<DataType, KeyType>* newNode;
-	newNode = new Node<DataType, KeyType>(newKey, newData, headNode.get_Front());
+	Node<DataType>* newNode;
+	newNode = new Node<DataType>(newData, headNode.get_Front());
 	headNode.set_Front(newNode);
+	if (newNode->get_next() == nullptr)headNode.set_Rear(newNode);
+
 	++headNode;
 }//end addTop
 
-template <class DataType, class KeyType>
-void SinglyLinkedList<DataType, KeyType>::addEnd(KeyType newKey, DataType newData)
+template <class DataType>
+void SinglyLinkedList<DataType>::addEnd(DataType newData)
 {
-	Node<DataType, KeyType>* newNode;
-	Node<DataType, KeyType>* temp_f = headNode.get_Front();
+	Node<DataType>* newNode;
+	Node<DataType>* temp_f = headNode.get_Front();
 
-	newNode = new Node<DataType, KeyType>(newKey, newData, nullptr);
-	while (temp_f->get_next() != nullptr)
+	
+	if (countNodes() == 0)
 	{
-		temp_f = temp_f->get_next();
+		newNode = new Node<DataType>(newData, headNode.get_Front());
+		headNode.set_Front(newNode);
+		headNode.set_Rear(newNode);
+
+		++headNode;
 	}
-	temp_f->set_next(newNode);
-	++headNode;
+	else
+	{
+		newNode = new Node<DataType>(newData,nullptr);
+		
+
+		while (temp_f->get_next() != nullptr)
+		{
+			temp_f = temp_f->get_next();
+		}
+		temp_f->set_next(newNode);
+		headNode.set_Rear(newNode);
+		++headNode;
+	}
+	
 }//end addEnd
 
-template <class DataType, class KeyType>
-void SinglyLinkedList<DataType, KeyType>::addAfter(KeyType newKey, DataType newData, KeyType preKey)
+template <class DataType>
+void SinglyLinkedList<DataType>::addAfter(DataType newData, DataType preData)
 {
-	Node<DataType, KeyType>* newNode;
-	Node<DataType, KeyType>* temp_f = headNode.get_Front();
-	Node<DataType, KeyType>* temp_b;
+	Node<DataType>* newNode;
+	Node<DataType>* temp_f = headNode.get_Front();
+	Node<DataType>* temp_b;
 
-	if (find(preKey) != -1)
+	if (find(preData) != -1)
 	{
-		while (temp_f->get_key() != preKey)
+		while (temp_f->get_data() != preData)
 		{
 			temp_f = temp_f->get_next();
 		}
 		temp_b = temp_f;
 		temp_f = temp_f->get_next();
-		newNode = new Node<DataType, KeyType>(newKey, newData, temp_f);
+		newNode = new Node<DataType>(newData, temp_f);
 		temp_b->set_next(newNode);
+		if (newNode->get_next() == nullptr)headNode.set_Rear(newNode);
 
 		++headNode;
 	}
@@ -156,17 +175,17 @@ void SinglyLinkedList<DataType, KeyType>::addAfter(KeyType newKey, DataType newD
 	}
 }//end addAfter
 
-template <class DataType, class KeyType>
-void SinglyLinkedList<DataType, KeyType>::addToPos(KeyType newKey, DataType newData, int pos)
+template <class DataType>
+void SinglyLinkedList<DataType>::addToPos(DataType newData, int pos)
 {
-	Node<DataType, KeyType>* newNode;
-	Node<DataType, KeyType>* temp_f = headNode.get_Front();
-	Node<DataType, KeyType>* temp_b;
+	Node<DataType>* newNode;
+	Node<DataType>* temp_f = headNode.get_Front();
+	Node<DataType>* temp_b;
 	if (pos <= headNode.get_nodeCounter())
 	{
 		if (pos == 0)
 		{
-			newNode = new Node<DataType>(newKey, newData, headNode.get_Front());
+			newNode = new Node<DataType>(newData, headNode.get_Front());
 			headNode.set_Front(newNode);
 		}
 		else
@@ -177,10 +196,12 @@ void SinglyLinkedList<DataType, KeyType>::addToPos(KeyType newKey, DataType newD
 			}
 			temp_b = temp_f;
 			temp_f = temp_f->get_next();
-			newNode = new Node<DataType>(newKey, newData, temp_f);
+			newNode = new Node<DataType>(newData, temp_f);
 			temp_b->set_next(newNode);
 
 		}
+		if (newNode->get_next() == nullptr)headNode.set_Rear(newNode);
+
 		++headNode;
 	}
 	else
@@ -190,23 +211,23 @@ void SinglyLinkedList<DataType, KeyType>::addToPos(KeyType newKey, DataType newD
 }//end addToPos
 
 
-template <class DataType, class KeyType>
-void SinglyLinkedList<DataType, KeyType>::remove(KeyType deleteKey)
+template <class DataType>
+void SinglyLinkedList<DataType>::remove(DataType data2delete)
 {
-	Node<DataType, KeyType>* temp_f = headNode.get_Front();
-	Node<DataType, KeyType>* temp_b;
+	Node<DataType>* temp_f = headNode.get_Front();
+	Node<DataType>* temp_b;
 
-	if (find(deleteKey) != -1)
+	if (find(data2delete) != -1)
 	{
 
-		if (temp_f->get_key() == deleteKey)
+		if (temp_f->get_data() == data2delete)
 		{
 			headNode.set_Front(temp_f->get_next());
 			delete temp_f;
 		}
 		else 
 		{
-			while (temp_f->get_next()->get_key() != deleteKey)
+			while (temp_f->get_next()->get_data() != data2delete)
 			{
 				temp_f = temp_f->get_next();
 			}
@@ -214,6 +235,7 @@ void SinglyLinkedList<DataType, KeyType>::remove(KeyType deleteKey)
 			temp_f = temp_f->get_next();
 			temp_b->set_next(temp_f->get_next());
 			delete temp_f;
+			if (temp_b->get_next() == nullptr)headNode.set_Rear(temp_b);
 		}
 		--headNode;
 	}
@@ -224,15 +246,15 @@ void SinglyLinkedList<DataType, KeyType>::remove(KeyType deleteKey)
 }//end remove
 
 
-template <class DataType, class KeyType>
-int SinglyLinkedList<DataType, KeyType>::find(KeyType findKey)
+template <class DataType>
+int SinglyLinkedList<DataType>::find(DataType data2find)
 {
 	int pos = 0;
-	Node<DataType, KeyType>* temp = headNode.get_Front();
+	Node<DataType>* temp = headNode.get_Front();
 
-	while (temp->get_next() != nullptr)
+	while (temp != nullptr)
 	{
-		if (temp->get_key() == findKey) return pos;
+		if (temp->get_data() == *data2find) return pos;
 
 		temp = temp->get_next();
 		pos++;
@@ -240,33 +262,54 @@ int SinglyLinkedList<DataType, KeyType>::find(KeyType findKey)
 	return -1;
 }//end find
 
-template <class DataType, class KeyType>
-DataType* SinglyLinkedList<DataType, KeyType>::returnData(KeyType dataKey){
-	Node<DataType, KeyType>* temp = headNode.get_Front();
 
-	while (temp->get_next() != nullptr)
+template <class DataType>
+DataType* SinglyLinkedList<DataType>::get_node_address(DataType data2find)
+{
+	int pos = 0;
+	Node<DataType>* temp = headNode.get_Front();
+
+	while (temp != nullptr)
 	{
-		if (temp->get_key() == dataKey) return &(temp->get_data());
+		if (temp->get_data() == data2find) return temp->get_dataAddress();
 
 		temp = temp->get_next();
+		pos++;
 	}
-	cout << "Not in list" << endl;
 	return nullptr;
-}
+}//end find
 
 
-template <class DataType, class KeyType>
-void SinglyLinkedList<DataType, KeyType>::emptyList()
+template <class DataType>
+DataType SinglyLinkedList<DataType>::get_node_data(DataType data2find)
 {
-	Node<DataType, KeyType>* temp_f = headNode.get_Front();
-	Node<DataType, KeyType>* temp_b;
+	int pos = 0;
+	Node<DataType>* temp = headNode.get_Front();
+
+	while (temp != nullptr)
+	{
+		if (temp->get_data() == data2find) return temp->get_data();
+
+		temp = temp->get_next();
+		pos++;
+	}
+	return data2find;
+;
+}//end find
+
+
+template <class DataType>
+void SinglyLinkedList<DataType>::emptyList()
+{
+	Node<DataType>* temp_f = headNode.get_Front();
+	Node<DataType>* temp_b;
 
 	cout << "\tEmptying list:" << endl;
 	while (temp_f != nullptr)
 	{
 		temp_b = temp_f;
 		temp_f = temp_f->get_next();
-		cout << "\tRemoving " << temp_b->get_key() << endl;
+		//cout << "\tRemoving " << temp_b->get_data() << endl;
 		delete temp_b;
 		--headNode;
 	}
@@ -275,8 +318,8 @@ void SinglyLinkedList<DataType, KeyType>::emptyList()
 }//end emptyList
 
 
-template <class DataType, class KeyType>
-int SinglyLinkedList<DataType, KeyType>::countNodes() 
+template <class DataType>
+int SinglyLinkedList<DataType>::countNodes() 
 {
 	return headNode.get_nodeCounter();
 }//end countNodes
@@ -284,14 +327,14 @@ int SinglyLinkedList<DataType, KeyType>::countNodes()
 
 
 
-template <class DataType, class KeyType>
-ostream& operator<<(ostream& s, const SinglyLinkedList<DataType, KeyType>& list)
+template <class DataType>
+ostream& operator<<(ostream& s, const SinglyLinkedList<DataType>& list)
 {
-	Node<DataType, KeyType>* temp = list.headNode.get_Front();
+	Node<DataType>* temp = list.headNode.get_Front();
 
 	while (temp != nullptr)
 	{
-		s << temp->get_Key() << endl;
+		s << *temp->get_dataAddress() << endl;
 		temp = temp->get_next();
 	}
 	return s;
