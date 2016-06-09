@@ -69,6 +69,9 @@
   <ItemGroup>
     <ClInclude Include="BinaryNode.h" />
     <ClInclude Include="BinarySearchTree.h" />
+    <ClInclude Include="Head.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="SinglyLinkedList.h" />
     <ClInclude Include="StudentData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -46,6 +46,12 @@ class StudentData
 			return *this;
 		}
 
+		bool operator== (const StudentData& stu)
+		{
+			if (ID == stu.ID) return true;
+			else return false;
+		}
+
 		// Overloading operator << : to print out the private data
 		friend ostream & operator<<(ostream& output, const StudentData& student);
 };
@@ -54,7 +60,7 @@ class StudentData
 
 ostream& operator<<(ostream& output, const StudentData& student)
 {
-	output	<< student.ID << "," << student.name << "," <<","<<student.major << "," 
+	output	<< student.ID << "," << student.name << "," <<student.major << "," << student.GPA <<","
 			<< student.total_credits << "," << student.year_studied << "," << student.current_units;
 	return output;
 }
