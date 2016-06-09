@@ -303,7 +303,7 @@ void SinglyLinkedList<DataType>::emptyList()
 	Node<DataType>* temp_f = headNode.get_Front();
 	Node<DataType>* temp_b;
 
-	//cout << "\tEmptying list:" << endl;
+	cout << "\tEmptying list:" << endl;
 	while (temp_f != nullptr)
 	{
 		temp_b = temp_f;

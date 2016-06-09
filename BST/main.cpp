@@ -21,7 +21,7 @@ void print(int& someData)
 
 //Prototypes
 //void readFile(StudentData* stu, BinarySearchTree<StudentData, int>& stu_tree);
-void readFile(SinglyLinkedList<StudentData> stu, BinarySearchTree<StudentData, int>& stu_tree);
+void readFile(SinglyLinkedList<StudentData>& stu, BinarySearchTree<StudentData, int>& stu_tree);
 
 
 int main()
@@ -42,6 +42,9 @@ int main()
 	stu.addTop(moreStu);
 
 	stu_tree.add(stu.get_node_data(moreStu).getID(), stu.get_node_address(moreStu));
+
+	cout << "\nFrom the tree: \n";
+	stu_tree.print_tree();
 
 	// Delete a student
 	cout << "\n\n\nDELETE A STUDENT\n";
@@ -118,7 +121,7 @@ int main()
 }
 
 
-void readFile(SinglyLinkedList<StudentData> stu, BinarySearchTree<StudentData, int>& stu_tree)
+void readFile(SinglyLinkedList<StudentData>& stu, BinarySearchTree<StudentData, int>& stu_tree)
 {
 	ifstream  inputFile;	// to hold the input file
 	string    line;			// to temporarily hold each line of string from the file 
